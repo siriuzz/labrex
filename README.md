@@ -11,7 +11,7 @@
 - Tooltips
 
 ## Tareas
-- [ ] Elegir fondo con la profesora
+- [x] Elegir fondo con la profesora
 - [ ] Crear guion para cada tema/escena
 - [ ] Añadir aspectos audiovisuales (música de fondo, video a los hotspots)
 - [ ] Investigar información a mostrar
