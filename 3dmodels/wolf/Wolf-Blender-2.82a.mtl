@@ -1,4 +1,4 @@
-# Blender 4.2.0 MTL File: 'Wolf-Blender-2.82a.blend'
+# Blender 4.2.0 MTL File: 'Blender-2.82a.blend'
 # www.blender.org
 
 newmtl Material.001
@@ -19,7 +19,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd wolf-textures/Material__wolf_col_tga_diffuse.jpeg
+map_Kd textures/Material__wolf_col_tga_diffuse.jpeg
 
 newmtl Wolf_Eyes
 Ns 250.000000
@@ -29,7 +29,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd wolf-textures/eyes_diffuse.jpeg
+map_Kd textures/eyes_diffuse.jpeg
 
 newmtl Wolf_Fur
 Ns 0.000000
@@ -38,8 +38,8 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 1
-map_Kd wolf-textures/Fur_Col_20.png
-map_d wolf-textures/Fur_Alpha_3.png
+map_Kd textures/Fur_Col_202.png
+map_d textures/Fur_Alpha_3.png
 
 newmtl Wolf_Teeth
 Ns 250.000000
