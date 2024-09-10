@@ -2,7 +2,7 @@
 
 	<include url="skin/vtourskin.xml" />
 	<plugin name="toolbox" url="plugins/toolbox/toolboxV2.js" keep="true" preload="true"/>
-
+	<plugin name="gyro" keep="true" url="plugins/gyro2.js" enabled="true" camroll="true" absolute="false" north="0" friction="0.0" touch_mode="full" sensor="1" sensor_mode="1" softstart="0.5" autocalibration="false" desktopsupport="false" onavailable="" onunavailable="" onenable="" ondisable="" ondenied="" />
 	<preview type="grid(cube,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);"/>
 	<!--  vignetting image  -->
 	<plugin name="mask" url="vignetting.png" width="100%" height="100%" safearea="false" enabled="false" zorder="0" alpha="0" onloaded="tween(alpha,1);"/>
@@ -56,10 +56,10 @@
 	calc(local.frames, xframes * ((caller.imageheight / frameheight) BOR 0));
 	def(local.frame, integer, 0);
 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																<!-- set the first frame -->
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<!-- set the first frame -->
 	calc(caller.crop, '0|0|' + framewidth + '|' + frameheight);
 
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																<!-- do the animation -->
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<!-- do the animation -->
 	setinterval(calc('crop_anim_' + caller.name), calc(1.0 / framerate),
 		if(caller.loaded,
 			inc(frame);
@@ -71,7 +71,7 @@
 			mul(ypos, frameheight);
 			calc(caller.crop, xpos + '|' + ypos + '|' + framewidth + '|' + frameheight);
 			,
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															<!-- stop the interval when the hotspot gets removed -->
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											<!-- stop the interval when the hotspot gets removed -->
 			clearinterval(calc('crop_anim_' + caller.name));
 			);
 			);
@@ -83,18 +83,18 @@
 		transitiontweentype = "easeoutquad";
 
 		if(caller AND caller.ishotspot,
-																																																																																																<!-- called from a hotspot, move toward the hotspot -->
+																																																																																																																												<!-- called from a hotspot, move toward the hotspot -->
 		if(caller.depth == 0,
-																																																																																																	<!-- 3d placed hotspot -->
+																																																																																																																													<!-- 3d placed hotspot -->
 			set3dtransition("image", caller.tx,caller.ty,caller.tz, motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
 		  ,
-																																																																																																	<!-- a hotspot with a spherical position -->
+																																																																																																																													<!-- a hotspot with a spherical position -->
 			caller.getcenter(h,v);
 			if(v GT -50 AND v LT +50 AND caller.depth GT 120, set(v,0));
 			set3dtransition("sphere", h,v,(min(caller.depth,1000)), motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
 		);
 	  ,
-																																																																																																<!-- called from a layer or a script, recenter at the new pano center (3d-model/depthmap panos only) -->
+																																																																																																																												<!-- called from a layer or a script, recenter at the new pano center (3d-model/depthmap panos only) -->
 		if(image.depthmap.url,
 			set3dtransition("image", 0,0,0, motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
 		);
