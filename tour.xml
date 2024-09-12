@@ -3,7 +3,7 @@
 	<include url="skin/vtourskin.xml" />
 	<plugin name="toolbox" url="plugins/toolbox/toolboxV2.js" keep="true" preload="true"/>
 	<plugin name="gyro" keep="true" url="plugins/gyro2.js" enabled="true" camroll="true" absolute="false" north="0" friction="0.0" touch_mode="full" sensor="1" sensor_mode="1" softstart="0.5" autocalibration="false" desktopsupport="false" onavailable="" onunavailable="" onenable="" ondisable="" ondenied="" />
-	<preview type="grid(cube,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);"/>
+	<!-- <preview type="grid(cube,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);"/> -->
 	<!--  vignetting image  -->
 	<plugin name="mask" url="vignetting.png" width="100%" height="100%" safearea="false" enabled="false" zorder="0" alpha="0" onloaded="tween(alpha,1);"/>
 	<!--  enable autorotation  -->
@@ -43,81 +43,35 @@
 
 	<!-- add WebVR support -->
 	<include url="%SWFPATH%/plugins/webvr.xml" />
-	<include url="%SWFPATH%/plugins/floor_hotspot.xml" />
+	<!-- <include url="%SWFPATH%/plugins/floor_hotspot.xml" /> -->
 	<include url="%SWFPATH%/plugins/depthmap_navigation.xml" />
 
 	<!-- adjust settings from the webvr.xml: fake mobilevr support, no vr cursor -->
 	<plugin name="WebVR" mobilevr_fake_support="true" vr_cursor="" />
-	<plugin name="FloorHotspot" url="plugins/floor_hotspot.xml"/>
+	<!-- <plugin name="FloorHotspot" url="plugins/floor_hotspot.xml"/> -->
 
-	<action name="do_crop_animation" scope="local" args="framewidth, frameheight, framerate">
-		<!-- define local variables -->
-	calc(local.xframes, (caller.imagewidth /framewidth) BOR 0);
-	calc(local.frames, xframes * ((caller.imageheight / frameheight) BOR 0));
-	def(local.frame, integer, 0);
-
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										<!-- set the first frame -->
-	calc(caller.crop, '0|0|' + framewidth + '|' + frameheight);
-
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										<!-- do the animation -->
-	setinterval(calc('crop_anim_' + caller.name), calc(1.0 / framerate),
-		if(caller.loaded,
-			inc(frame);
-			if(frame GE frames, if(caller.onlastframe !== null, callwith(caller, onlastframe() ) ); set(frame,0); );
-			mod(xpos, frame, xframes);
-			div(ypos, frame, xframes);
-			Math.floor(ypos);
-			mul(xpos, framewidth);
-			mul(ypos, frameheight);
-			calc(caller.crop, xpos + '|' + ypos + '|' + framewidth + '|' + frameheight);
-			,
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																									<!-- stop the interval when the hotspot gets removed -->
-			clearinterval(calc('crop_anim_' + caller.name));
-			);
-			);
-	</action>
-	<action name="scene3dtransition" scope="local" args="scenename, hlookatoffset">
-		motionblur = 0.5;
-		transitiondelay = 0.0;
-		transitiontime = 0.2;
-		transitiontweentype = "easeoutquad";
-
-		if(caller AND caller.ishotspot,
-																																																																																																																																																										<!-- called from a hotspot, move toward the hotspot -->
-		if(caller.depth == 0,
-																																																																																																																																																											<!-- 3d placed hotspot -->
-			set3dtransition("image", caller.tx,caller.ty,caller.tz, motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
-		  ,
-																																																																																																																																																											<!-- a hotspot with a spherical position -->
-			caller.getcenter(h,v);
-			if(v GT -50 AND v LT +50 AND caller.depth GT 120, set(v,0));
-			set3dtransition("sphere", h,v,(min(caller.depth,1000)), motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
-		);
-	  ,
-																																																																																																																																																										<!-- called from a layer or a script, recenter at the new pano center (3d-model/depthmap panos only) -->
-		if(image.depthmap.url,
-			set3dtransition("image", 0,0,0, motionblur, hlookatoffset, transitiondelay, transitiontime, transitiontweentype);
-		);
-	);
-
-	loadscene(get(scenename), null, MERGE, BLEND(get(transitiontime),get(transitiontweentype)));
-	</action>
+	<hotspot name="nadirlogo" ty="1000" keep="true" url="skin/vtourskin_nadir2.png" ath="0" atv="90" distorted="true" scale="6" rotate="0.0" onclick="openurl('https://refodige.intec.edu.do/');" />
+	<events name="nadirlogo" keep="true" onviewchange="copy(hotspot[nadirlogo].rotate, view.hlookat);" />
 
 	<scene name="scene_P1" title="P1" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
 		<!-- <control invert="true"></control> -->
-		<view hlookat="86.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="100" maxpixelzoom="4.0" fovmin="70" fovmax="100" />
 
-
-
-		<!-- <image type="CUBE">
-			<cube url="./panos/manglares/manglar_rojo/%s.png" />
-			</image> -->
-
-		<image>
-			<sphere url="panos/manglares/manglar_rojo/_sphere4.png"/>
+		<hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="true" />
+		<image type="CUBE">
+			<cube url="./panos/manglares/manglar_rojo/introduccion_canva/canva_%s.jpg" />
 		</image>
+		<!-- <hotspot name="rotate-right1" style="flyoutimage" url="skin/right_arrow.png" depth='1000' ox="338.5" oy='-368.5' tx="33.5" scale='0.2' onclick="skin_lookto(90,2.7,100); "/> -->
+		<hotspot name="rotate-right1" style="flyoutimage" url="skin/right_arrow.png" ath="0" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(90,2.7,100); " />
+		<hotspot name="rotate-right2" style="flyoutimage" url="skin/right_arrow.png" ath="90" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(180,2.7,100); "/>
+		<hotspot name="rotate-right3" style="flyoutimage" url="skin/right_arrow.png" ath="180" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(270,2.7,100); "/>
+		<hotspot name="rotate-right4" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P2"/>
 
-		<hotspot name="flyoutimage" url="panos/manglares/manglar_rojo/Carteles/Sala de lectura descripcion.jpg" style="flyoutimage" scale="1" ath="6" atv="7.2616212" />
+		<!-- <image>
+			<sphere url="panos/manglares/manglar_rojo/_sphere4.png"/>
+	</image> -->
+
+		<!-- <hotspot name="flyoutimage" url="panos/manglares/manglar_rojo/Carteles/Sala de lectura descripcion.jpg" style="flyoutimage" scale="1" ath="6" atv="7.2616212" /> -->
 
 		<!-- <image oy="20" ox="30">
 			<depthmap url="./3dmodels/wolf/Wolf-Blender.obj" rendermode="3dmodel" scale="100" textured="true" waitforload="true" axis="+x+y+z"/>
@@ -126,17 +80,39 @@
 
 	</scene>
 
-	<scene name="scene_AQ" title="AQ" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+	<scene name="scene_P2" title="AQ" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
 		<!-- <control invert="true"></control> -->
-		<view hlookat="86.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="false" />
 
+		<image>
+			<sphere url="./panos/manglares/manglar_rojo/_sphere4.png" />
+		</image>
+		<hotspot name="goto_3dmodel" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P3"/>
+
+		<!-- <image oy="150" ox="10">
+			<depthmap url="3dmodels/fish/fish.obj" rendermode="3dmodel" scale="100" textured="true" waitforload="true" axis="+x+y+z"/>
+		</image> -->
+		<!-- <hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" /> -->
+
+	</scene>
+	<scene name="scene_P3" title="P3" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+		<!-- <control invert="true"></control> -->
+		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<!-- <hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="false" /> -->
+
+		<!-- <image>
+			<sphere url="./panos/manglares/manglar_rojo/_sphere4.png" />
+		</image> -->
+		<!-- <hotspot name="goto_3dmodel" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P2"/> -->
 
 		<image oy="150" ox="10">
 			<depthmap url="3dmodels/fish/fish.obj" rendermode="3dmodel" scale="100" textured="true" waitforload="true" axis="+x+y+z"/>
 		</image>
-		<hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" />
+		<!-- <hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" /> -->
 
 	</scene>
+
 
 	<scene name="scene_AF" title="AF" onstart="" thumburl="panos/AF.tiles/thumb.jpg" lat="18.48763889" lng="-69.96187778" alt="20.50" heading="0.0">
 

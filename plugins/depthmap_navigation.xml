@@ -42,7 +42,7 @@
 		- bounceback = when hitting a wall, add a bounce movement
 	-->
 
-    <depthmap_navigation movemode="walking" touchmode="shift" speed.number="0.2" friction.number="0.9" collision.bool="true" groundcollision.bool="false" usevrfloorlevel.bool="false" eyelevel.number="160.0" collisionlevel.number="100.0" smoothlevelchanges.number="0.15" stopdistance.number="30.0" moveback.number="1.2" bounceback.number="1.6" />
+    <depthmap_navigation movemode="flying" touchmode="shift" speed.number="1" friction.number="0.9" collision.bool="true" groundcollision.bool="true" usevrfloorlevel.bool="true" eyelevel.number="80.0" collisionlevel.number="100.0" smoothlevelchanges.number="0.15" stopdistance.number="30.0" moveback.number="1.2" bounceback.number="1.2" />
 
 
     <!-- remove the default keyboard controls -->
@@ -469,7 +469,7 @@
 
 
     <!-- info texts -->
-    <layer name="depthmap_info" keep="true" style="depthmap_info" align="center" y="+25%" html="Walk around using the[br]Keyboard Arrow- or W,A,S,D-keys" onloaded="delayedcall(depthmap_info, 3.0, tween(layer[depthmap_info].alpha,0.0,0.5); );" devices="desktop" />
+    <layer name="depthmap_info" keep="true" style="depthmap_info" align="center" y="+25%" html="Camina utilizando las teclas[br] de dirección o W,A,S,D" onloaded="delayedcall(depthmap_info, 3.0, tween(layer[depthmap_info].alpha,0.0,0.5); );" devices="desktop" />
 
 
     <action name="depthmap_showinfo" scope="local" args="info, time">
