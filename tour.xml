@@ -1,11 +1,15 @@
-﻿<krpano version="1.21" title="Virtual Tour">
+﻿<krpano version="1.21" title="Virtual Tour" bgcolor="0x385aff">
 
 	<include url="skin/vtourskin.xml" />
+	<include url="plugins/partialpano_helpertool.xml" />
+	<include url="plugins/combobox.xml" />
 	<plugin name="toolbox" url="plugins/toolbox/toolboxV2.js" keep="true" preload="true"/>
 	<plugin name="gyro" keep="true" url="plugins/gyro2.js" enabled="true" camroll="true" absolute="false" north="0" friction="0.0" touch_mode="full" sensor="1" sensor_mode="1" softstart="0.5" autocalibration="false" desktopsupport="false" onavailable="" onunavailable="" onenable="" ondisable="" ondenied="" />
 	<!-- <preview type="grid(cube,16,16,512,0xCCCCCC,0xFFFFFF,0x999999);"/> -->
 	<!--  vignetting image  -->
 	<plugin name="mask" url="vignetting.png" width="100%" height="100%" safearea="false" enabled="false" zorder="0" alpha="0" onloaded="tween(alpha,1);"/>
+	<!-- load the soundinterface plugin -->
+	<plugin name="soundinterface" url="%VIEWER%/plugins/soundinterface.js" rootpath="" preload="true" keep="true" />
 	<!--  enable autorotation  -->
 	<autorotate enabled="true" waittime="3.0" accel="0.5" speed="3" horizon="0" tofov="100"/>
 	<!--  compass with rotating pointer  -->
@@ -50,10 +54,10 @@
 	<plugin name="WebVR" mobilevr_fake_support="true" vr_cursor="" />
 	<!-- <plugin name="FloorHotspot" url="plugins/floor_hotspot.xml"/> -->
 
-	<hotspot name="nadirlogo" ty="1000" keep="true" url="skin/vtourskin_nadir2.png" ath="0" atv="90" distorted="true" scale="6" rotate="0.0" onclick="openurl('https://refodige.intec.edu.do/');" />
-	<events name="nadirlogo" keep="true" onviewchange="copy(hotspot[nadirlogo].rotate, view.hlookat);" />
+	<!-- <hotspot name="nadirlogo" ty="1000" keep="true" url="skin/vtourskin_nadir2.png" ath="0" atv="90" distorted="true" scale="6" rotate="0.0" onclick="openurl('https://refodige.intec.edu.do/');" />
+	<events name="nadirlogo" keep="true" onviewchange="copy(hotspot[nadirlogo].rotate, view.hlookat);" /> -->
 
-	<scene name="scene_P1" title="P1" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+	<scene name="scene_1" title="Intro" onstart="" thumburl="skin/welcome_panel.png">
 		<!-- <control invert="true"></control> -->
 		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="100" maxpixelzoom="4.0" fovmin="70" fovmax="100" />
 
@@ -65,7 +69,7 @@
 		<hotspot name="rotate-right1" style="flyoutimage" url="skin/right_arrow.png" ath="0" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(90,2.7,100); " />
 		<hotspot name="rotate-right2" style="flyoutimage" url="skin/right_arrow.png" ath="90" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(180,2.7,100); "/>
 		<hotspot name="rotate-right3" style="flyoutimage" url="skin/right_arrow.png" ath="180" depth="1000" ox="425" oy="-302" scale='0.2' onclick="skin_lookto(270,2.7,100); "/>
-		<hotspot name="rotate-right4" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P2"/>
+		<hotspot name="rotate-right4" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_red"/>
 
 		<!-- <image>
 			<sphere url="panos/manglares/manglar_rojo/_sphere4.png"/>
@@ -80,15 +84,16 @@
 
 	</scene>
 
-	<scene name="scene_P2" title="AQ" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+	<scene name="scene_red" title="Manglar rojo" onstart="" thumburl="panos/manglares/manglar_rojo/_sphere4.png">
 		<!-- <control invert="true"></control> -->
-		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" limitview="lookat"/>
 		<hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="false" />
-
+		<!-- <events name="currentpano" onnewpano="playsound(bgsnd, './skin/manglar_rojo.mp3', 0);" onkeydown="if(keycode == charcode('X'), togglesound(bgsnd););" onremovepano="stopsound(bgsnd);" /> -->
 		<image>
 			<sphere url="./panos/manglares/manglar_rojo/_sphere4.png" />
+			<!-- <flat url="panos/flat/manglar_rojo.jpg" /> -->
 		</image>
-		<hotspot name="goto_3dmodel" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P3"/>
+		<hotspot name="goto_3dmodel" style="flyoutimage" url="skin/goto_3dmodel.png" ath="-90" depth="1000" scale="1" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P3"/>
 
 		<!-- <image oy="150" ox="10">
 			<depthmap url="3dmodels/fish/fish.obj" rendermode="3dmodel" scale="100" textured="true" waitforload="true" axis="+x+y+z"/>
@@ -96,7 +101,7 @@
 		<!-- <hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" /> -->
 
 	</scene>
-	<scene name="scene_P3" title="P3" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+	<scene name="scene_fish" title="Fish Model" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
 		<!-- <control invert="true"></control> -->
 		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
 		<!-- <hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="false" /> -->
@@ -106,15 +111,30 @@
 		</image> -->
 		<!-- <hotspot name="goto_3dmodel" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P2"/> -->
 
-		<image oy="150" ox="10">
-			<depthmap url="3dmodels/fish/fish.obj" rendermode="3dmodel" scale="100" textured="true" waitforload="true" axis="+x+y+z"/>
+		<image oy="50" ox="10">
+			<depthmap url="3dmodels/fish/fish.obj" mapmode="2" background="pano" backgroundurl="/panos/manglares/manglar_rojo/_sphere4.png" rendermode="3dmodel" scale="40" textured="false" waitforload="true" axis="+x+y+z" hittest="false" />
+		</image>
+		<!-- <hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" /> -->
+
+	</scene>
+	<scene name="scene_fish_test" title="Fish Model Test" onstart="" thumburl="panos/a-cartoon-of-a-pool-and-a-building-with-a-bridge-and-trees.tiles/thumb.jpg">
+		<!-- <control invert="true"></control> -->
+		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
+		<!-- <hotspot name="welcome" style="flyoutimage" url="skin/welcome_panel.png" flying_state="out" zorder="1" capture="false" /> -->
+
+		<!-- <image>
+			<sphere url="./panos/manglares/manglar_rojo/_sphere4.png" />
+		</image> -->
+		<!-- <hotspot name="goto_3dmodel" style="flyoutimage" url="skin/start_button.png" ath="-90" depth="1000" scale="0.3" ox="161.5" oy="-28" onclick="skin_hotspotstyle_click" linkedscene="scene_P2"/> -->
+
+		<image oy="50" ox="10">
+			<depthmap url="3dmodels/fish/fish.obj" mapmode="2" background="pano" backgroundurl="/panos/manglares/manglar_rojo/_sphere4.png" rendermode="3dmodel" scale="40" textured="false" waitforload="true" axis="+x+y+z" hittest="false" />
 		</image>
 		<!-- <hotspot name="skin_animated_hotspot" style="skin_animated_hotspot" onloaded="do_crop_animation(64,64, 30);" ath="6" atv="7.2616212" /> -->
 
 	</scene>
 
-
-	<scene name="scene_AF" title="AF" onstart="" thumburl="panos/AF.tiles/thumb.jpg" lat="18.48763889" lng="-69.96187778" alt="20.50" heading="0.0">
+	<scene name="scene_P4" title="P4" onstart="" thumburl="panos/AF.tiles/thumb.jpg" lat="18.48763889" lng="-69.96187778" alt="20.50" heading="0.0">
 
 		<!-- <view hlookat="0.0" vlookat="0.0" tz="200" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" /> -->
 		<view hlookat="0.0" vlookat="0.0" fovtype="VFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="120" />
@@ -127,7 +147,7 @@
 		</contextmenu>
 
 
-		<control bouncinglimits="calc:image.cube ? true : false" />
+		<control bouncinglimits="ca	lc:image.cube ? true : false" />
 
 
 		<preview url="panos/AF.tiles/preview.jpg" />
